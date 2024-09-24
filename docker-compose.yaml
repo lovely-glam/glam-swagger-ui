@@ -1,0 +1,6 @@
+services:
+  glam-swagger:
+    image: ${DOCKER_USER}/glam-swagger:latest
+    build:
+      context: .
+      dockerfile: Dockerfile

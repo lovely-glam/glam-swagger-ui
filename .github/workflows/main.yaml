@@ -1,0 +1,43 @@
+name: Glam Swagger
+on:
+    push:
+      branches: ["main"]
+  
+jobs:
+    swagger-ui-build:
+      name: Build source code to Docker image
+      runs-on: ubuntu-22.04 
+      env:
+        DOCKER_USER: ${{secrets.DOCKER_USERNAME}}
+      steps:
+        - name: Checkout Develop
+          uses: actions/checkout@v3
+  
+        - name: DockerHub Login
+          uses: docker/login-action@v3.1.0
+          with:
+            username: ${{secrets.DOCKER_USERNAME}}
+            password: ${{secrets.DOCKER_PASSWORD}}
+  
+        - name: Build Image And Push
+          run: docker compose build glam-swagger && docker compose push glam-swagger
+    
+    staging-fe-deploy:
+      name: Deploy Staging FE Admin To Google Service Server For Testing
+      runs-on: arisa-server
+      needs: swagger-ui-build
+      env:
+        DOCKER_USER: ${{secrets.DOCKER_USERNAME}}
+      steps:
+      - name: Checkout Develop
+        uses: actions/checkout@v3
+      - name: DockerHub Login
+        uses: docker/login-action@v3.1.0
+        with:
+          username: ${{secrets.DOCKER_USERNAME}}
+          password: ${{secrets.DOCKER_PASSWORD}}
+      - name: Stop BachHoaSi API
+        run: docker compose -p glam-swagger-ui down glam-swagger --rmi all
+        continue-on-error: true
+      - name: Deploy API
+        run: docker compose -p glam-swagger-ui up -d glam-swagger
