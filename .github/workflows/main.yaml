@@ -37,7 +37,7 @@ jobs:
           username: ${{secrets.DOCKER_USERNAME}}
           password: ${{secrets.DOCKER_PASSWORD}}
       - name: Stop BachHoaSi API
-        run: docker compose -p glam-swagger-ui down glam-swagger --rmi all
+        run: docker compose -f docker-compose.prod.yaml -p glam-swagger-ui down glam-swagger --rmi all
         continue-on-error: true
       - name: Deploy API
-        run: docker compose -p glam-swagger-ui up -d glam-swagger
+        run: docker compose -f docker-compose.prod.yaml -p glam-swagger-ui up -d glam-swagger
