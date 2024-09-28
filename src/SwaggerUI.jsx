@@ -10,7 +10,8 @@ const SwaggerUIComponent = () => {
         {url: 'https://oauth2.lovelyglam.life', name: 'OAuth2 Server'},
         {url: 'https://system.lovelyglam.life', name: 'Lovely Glam Server'},
         {url: 'https://user.lovelyglam.life', name: 'User Server'},
-        {url: 'https://ws.lovelyglam.life', name: 'Chat Socket Server'}
+        {url: 'https://ws.lovelyglam.life', name: 'Chat Socket Server'},
+        {url: 'https://worker.lovelyglam.life', name: 'Worker Server'}
     ]
     const [selectedUrl, setSelectedUrl] = React.useState(urls[0].url);
 
